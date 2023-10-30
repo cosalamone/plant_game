@@ -1,7 +1,7 @@
 import pygame
 from constantes import *
 
-def get_surface_from_spritsheet(path,columnas,filas,flip=False):
+def get_surface_from_spritsheet(path:str,columnas:int,filas:int,flip:bool=False):
     lista = []
     surface_img = pygame.image.load(path)
     fotograma_ancho = int(surface_img.get_width()/columnas)
@@ -20,7 +20,7 @@ def get_surface_from_spritsheet(path,columnas,filas,flip=False):
 
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity=0) ->None:
+    def __init__(self,x:int,y:int,speed_walk:int,speed_run:int,gravity=0) -> None:
         self.walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
         self.walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
 
@@ -44,7 +44,7 @@ class Player:
         self.rect.x = 15
         self.rect.y = 500
 
-    def control(self,action):
+    def control(self,action:str):
 
         if (action == 'walk_right'):
             self.move_x = self.speed_walk
@@ -64,6 +64,7 @@ class Player:
 
 
     def update(self):
+        # va pasando de frames siempre y cuando no supere el maximo; sino regresa al primer frame
         if (self.frame < len(self.animation) - 1):
             self.frame += 1
         else:
