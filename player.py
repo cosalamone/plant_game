@@ -20,7 +20,7 @@ def get_surface_from_spritsheet(path,columnas,filas,flip=False):
 
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity) ->None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity=0) ->None:
         self.walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
         self.walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
 
@@ -39,7 +39,10 @@ class Player:
 
         self.animation = self.stand_up
         self.img = self.animation[self.frame]
+        # self.img = pygame.transform.scale(self.img,(100,100))
         self.rect = self.img.get_rect()
+        self.rect.x = 15
+        self.rect.y = 500
 
     def control(self,action):
 
@@ -47,6 +50,7 @@ class Player:
             self.move_x = self.speed_walk
             self.animation = self.walk_right
             self.frame = 0
+
         elif (action == 'walk_left'):
                 self.move_x = -self.speed_walk
                 self.animation = self.walk_left
@@ -71,6 +75,7 @@ class Player:
 
     def draw(self, screen):
         self.img = self.animation[self.frame]
+        self.img = pygame.transform.scale(self.img,(130,130))
         screen.blit(self.img, self.rect)
 
 
