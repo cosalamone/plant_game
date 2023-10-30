@@ -21,11 +21,19 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                player.control(5,0)
+                player.control('walk_right',5,0)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 player.control(0,0)
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player.control('walk_left',-5,0)
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                player.control(0,0)        
 
     player.update()
     player.draw(screen)

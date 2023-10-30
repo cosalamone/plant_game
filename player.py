@@ -1,7 +1,7 @@
 import pygame
 from constantes import *
 
-def get_surface_from_spritsheet(path,columnas,filas):
+def get_surface_from_spritsheet(path,columnas,filas,flip=False):
     lista = []
     surface_img = pygame.image.load(path)
     fotograma_ancho = int(surface_img.get_width()/columnas)
@@ -12,6 +12,8 @@ def get_surface_from_spritsheet(path,columnas,filas):
             y = fila * fotograma_alto
             # print(x,y,fotograma_alto, fotograma_ancho)
             surface_fotograma = surface_img.subsurface(x,y,fotograma_ancho,fotograma_alto)
+            if flip == True:
+                surface_fotograma = pygame.transform.flip(surface_fotograma,True,False)
             lista.append(surface_fotograma)
 
     return lista
@@ -19,7 +21,9 @@ def get_surface_from_spritsheet(path,columnas,filas):
 
 class Player:
     def __init__(self) ->None:
-        self.walk = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
+        self.walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
+        self.walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
+
         self.stand_up = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_idle.png',4,1)
         self.frame = 0
         self.lives = 3
@@ -28,13 +32,24 @@ class Player:
         self.move_x = 0
         self.move_y = 0
 
-        self.animation = self.walk
+        self.animation = self.stand_up
         self.img = self.animation[self.frame]
         self.rect = self.img.get_rect()
 
-    def control(self,x=0,y=0):
+    def control(self,action,x=0,y=0):
         self.move_x = x
         self.move_y = y
+        if (action == 'walk_right'):
+            self.animation = self.walk_right
+            self.frame = 0
+        if (action == 'walk_left'):
+            self.animation = self.walk_left
+            self.frame = 0
+
+        if (action == 'stand_up'):
+            self.animation = self.stand_up
+            self.frame = 0
+
 
     def update(self):
         if (self.frame < len(self.animation) - 1):
