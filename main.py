@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 img_background = pygame.image.load('assets/background/Forest of Illusion Files/Previews/Previewx3.png')
 # img_background = pygame.transform.scale(img_background,(ANCHO_VENTANA, ALTO_VENTANA))
 
-player = Player()
+player = Player(0,0,4,8)
 
 while True:
     for event in pygame.event.get():
@@ -21,19 +21,20 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                player.control('walk_right',5,0)
+                player.control('walk_right')
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
-                player.control(0,0)
+                player.control('stand_up')
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player.control('walk_left',-5,0)
+                player.control('walk_left')
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-                player.control(0,0)        
+                player.control('stand_up')        
+    screen.blit(img_background,img_background.get_rect())
 
     player.update()
     player.draw(screen)
@@ -45,6 +46,5 @@ while True:
 
 
     pygame.display.flip()
-    screen.blit(img_background,img_background.get_rect())
     # print(clock.tick(FPS))
     delta_ms = clock.tick(FPS) # limita la cantidad de veces x seg que se genera el while

@@ -20,7 +20,7 @@ def get_surface_from_spritsheet(path,columnas,filas,flip=False):
 
 
 class Player:
-    def __init__(self) ->None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity) ->None:
         self.walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
         self.walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
 
@@ -29,25 +29,33 @@ class Player:
         self.lives = 3
         self.score = 0
 
-        self.move_x = 0
-        self.move_y = 0
+        self.move_x = x
+        self.move_y = y
+
+        self.speed_walk = speed_walk
+        self.speed_run = speed_run
+
+        self.gravity = gravity
 
         self.animation = self.stand_up
         self.img = self.animation[self.frame]
         self.rect = self.img.get_rect()
 
-    def control(self,action,x=0,y=0):
-        self.move_x = x
-        self.move_y = y
+    def control(self,action):
+
         if (action == 'walk_right'):
+            self.move_x = self.speed_walk
             self.animation = self.walk_right
             self.frame = 0
-        if (action == 'walk_left'):
-            self.animation = self.walk_left
-            self.frame = 0
+        elif (action == 'walk_left'):
+                self.move_x = -self.speed_walk
+                self.animation = self.walk_left
+                self.frame = 0
 
-        if (action == 'stand_up'):
+        elif (action == 'stand_up'):
             self.animation = self.stand_up
+            self.move_x = 0
+            self.move_y = 0
             self.frame = 0
 
 
