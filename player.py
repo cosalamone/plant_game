@@ -20,11 +20,26 @@ def get_surface_from_spritsheet(path:str,columnas:int,filas:int,flip:bool=False)
 
 
 class Player:
-    def __init__(self,x:int,y:int,speed_walk:int,speed_run:int,gravity=0) -> None:
-        self.walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
-        self.walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
+    def __init__(self,x:int,y:int,speed_walk:int,speed_run:int,) -> None:
 
-        self.stand_up = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_idle.png',4,1)
+        self.mirando_right = True
+        self.action = 'quieto'
+        self.img_walk_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
+        self.img_walk_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
+
+        self.img_stand_up_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_idle.png',4,1)
+        self.img_stand_up_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_idle.png',4,1, True)
+        
+        self.img_jump_right = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_jump.png',6,1)
+        self.img_jump_left = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_jump.png',6,1,True)
+        self.jumping = False
+        self.height_jump = -20
+        self.limit_vel_caida = self.height_jump * -1
+        self.gravity = 3
+
+        self.img_hurt = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_hurt.png',3,1)
+        self.img_death = get_surface_from_spritsheet('assets/characters/GraveRobber/GraveRobber_death.png',6,1)
+
         self.frame = 0
         self.lives = 3
         self.score = 0
@@ -32,50 +47,103 @@ class Player:
         self.move_x = x
         self.move_y = y
 
-        self.speed_walk = speed_walk
+        self.speed_walk = speed_walk 
         self.speed_run = speed_run
 
-        self.gravity = gravity
 
-        self.animation = self.stand_up
+        self.animation = self.img_stand_up_right
         self.img = self.animation[self.frame]
         # self.img = pygame.transform.scale(self.img,(100,100))
         self.rect = self.img.get_rect()
         self.rect.x = 15
         self.rect.y = 500
 
-    def control(self,action:str):
+    def control(self):
 
-        if (action == 'walk_right'):
+        if (self.action == 'walk_right'):
+            self.mirando_right = True
             self.move_x = self.speed_walk
-            self.animation = self.walk_right
+            self.animation = self.img_walk_right
             self.frame = 0
 
-        elif (action == 'walk_left'):
-                self.move_x = -self.speed_walk
-                self.animation = self.walk_left
+        elif (self.action == 'jump'):
+            if not self.jumping:
+                self.jumping = True
+                #self.move_x = 0
+                self.move_y = self.height_jump
                 self.frame = 0
 
-        elif (action == 'stand_up'):
-            self.animation = self.stand_up
+        elif (self.action == 'walk_left'):
+            self.mirando_right = False
+            self.move_x = -self.speed_walk
+            self.animation = self.img_walk_left
+            self.frame = 0
+
+        elif (self.action == 'stand_up'):
+            if self.mirando_right == True:
+                self.animation = self.img_stand_up_right
+            else:
+                self.animation = self.img_stand_up_left
+
             self.move_x = 0
             self.move_y = 0
             self.frame = 0
 
 
-    def update(self):
+
+        # elif (action == 'stand_up_left'):
+        #     self.mirando_right = False
+        #     self.animation = self.img_stand_up_left
+        #     self.move_x = 0
+        #     self.move_y = 0
+        #     self.frame = 0
+
+
+    def aplicar_gravedad(self):
+        if self.jumping ==  True:
+            self.rect.y += self.move_y
+            if (self.move_y + self.gravity) < self.limit_vel_caida:
+                self.move_y += self.gravity
+
+            if self.rect.y >= 480:
+                self.jumping = False
+                self.move_y = 0
+            else:
+                self.jumping = True
+
+    def update(self,screen):
         # va pasando de frames siempre y cuando no supere el maximo; sino regresa al primer frame
-        if (self.frame < len(self.animation) - 1):
-            self.frame += 1
+        self.control()
+        if self.action == 'jump':
+            if self.mirando_right == True:
+                self.draw(screen,self.img_jump_right )
+            else:
+                self.draw(screen,self.img_jump_left )
+        
+        if self.action == 'walk_right':
+            if self.mirando_right == True:
+                self.draw(screen,self.img_walk_right )
+            else:
+                self.draw(screen,self.img_walk_left )
+        
         else:
-            self.frame = 0
+            if self.mirando_right == True:
+                self.draw(screen,self.img_stand_up_right )
+            else:
+                self.draw(screen,self.img_stand_up_left )
 
         self.rect.x += self.move_x
         self.rect.y += self.move_y
 
+        self.aplicar_gravedad()
 
-    def draw(self, screen):
-        self.img = self.animation[self.frame]
+    def draw(self, screen, lista_animaciones):
+        if (self.frame < len(lista_animaciones) - 1):
+            self.frame += 1
+        else:
+            self.frame = 0
+
+        self.img = lista_animaciones[self.frame]
         self.img = pygame.transform.scale(self.img,(130,130))
         screen.blit(self.img, self.rect)
 

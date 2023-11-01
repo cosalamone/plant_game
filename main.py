@@ -12,8 +12,9 @@ clock = pygame.time.Clock() #controla la cantidad de frames x segundo
 img_background = pygame.image.load('assets/background/Forest of Illusion Files/Previews/Previewx3.png')
 # img_background = pygame.transform.scale(img_background,(ANCHO_VENTANA, ALTO_VENTANA))
 
-player = Player(0,0,8,16)
-
+player = Player(0,0,10,20)
+plataforma = pygame.image.load('assets\plataforma\plataform (1).png')
+plataforma = pygame.transform.scale(plataforma, (250,40))
 flag_playing = True
 
 while flag_playing:
@@ -24,21 +25,42 @@ while flag_playing:
             pygame.quit()
             sys.exit() # cierra la app
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                player.control('walk_right')
+        teclas = pygame.key.get_pressed()
+        if teclas[pygame.K_UP] and player.jumping == False:
+            player.action = 'jump'
+        
+        elif teclas[pygame.K_RIGHT]:
+            player.action='walk_right'
+        
+        elif teclas[pygame.K_LEFT]:
+            player.action='walk_left'
+        
+        else:
+            player.action='stand_up'
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_RIGHT:
-                player.control('stand_up')
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                player.control('walk_left')
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                player.control('stand_up')     
+
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_RIGHT:
+        #         player.control('walk_right')
+
+        # # if event.type == pygame.KEYUP:
+        # #     if event.key == pygame.K_RIGHT:
+        # #         player.control('stand_up_right')
+
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_LEFT:
+        #         player.control('walk_left')
+
+        # # if event.type == pygame.KEYUP:
+        # #     if event.key == pygame.K_LEFT:
+        # #         player.control('stand_up_left')     
+
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_UP:
+        #         player.control('jump')
+                
 
     # lista_teclas = pygame.key.get_pressed()
     # if True in lista_teclas:
@@ -56,12 +78,10 @@ while flag_playing:
 
     #     if event.type == pygame.KEYUP:
     #         if event.key == pygame.K_LEFT:
-    #             player.control('stand_up')  
-    
+    #             player.control('stand_up')  s
     screen.blit(img_background,img_background.get_rect())
-
-    player.update()
-    player.draw(screen)
+    screen.blit(plataforma,plataforma.get_rect())
+    player.update(screen)
 
     # player update -> verifica como el py interactua c/ nivel
     # enemigo update
