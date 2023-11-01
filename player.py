@@ -58,36 +58,39 @@ class Player:
         self.rect.x = 15
         self.rect.y = 500
 
-    def control(self):
+    def control(self, velocidad_caminar):
 
-        if (self.action == 'walk_right'):
-            self.mirando_right = True
-            self.move_x = self.speed_walk
-            self.animation = self.img_walk_right
-            self.frame = 0
+        self.rect.x += velocidad_caminar 
 
-        elif (self.action == 'jump'):
-            if not self.jumping:
-                self.jumping = True
-                #self.move_x = 0
-                self.move_y = self.height_jump
-                self.frame = 0
 
-        elif (self.action == 'walk_left'):
-            self.mirando_right = False
-            self.move_x = -self.speed_walk
-            self.animation = self.img_walk_left
-            self.frame = 0
+        # if (self.action == 'walk_right'):
+        #     self.mirando_right = True
+        #     self.move_x = self.speed_walk
+        #     # self.animation = self.img_walk_right
+        #     self.frame = 0
 
-        elif (self.action == 'stand_up'):
-            if self.mirando_right == True:
-                self.animation = self.img_stand_up_right
-            else:
-                self.animation = self.img_stand_up_left
+        # elif (self.action == 'jump'):
+        #     if not self.jumping:
+        #         self.jumping = True
+        #         #self.move_x = 0
+        #         self.move_y = self.height_jump
+        #         self.frame = 0
 
-            self.move_x = 0
-            self.move_y = 0
-            self.frame = 0
+        # elif (self.action == 'walk_left'):
+        #     self.mirando_right = False
+        #     self.move_x = -self.speed_walk
+        #     # self.animation = self.img_walk_left
+        #     self.frame = 0
+
+        # elif (self.action == 'stand_up'):
+        #     # if self.mirando_right == True:
+        #         # self.animation = self.img_stand_up_right
+        #     # else:
+        #     #     self.animation = self.img_stand_up_left
+
+        #     self.move_x = 0
+        #     self.move_y = 0
+        #     self.frame = 0
 
 
 
@@ -99,8 +102,9 @@ class Player:
         #     self.frame = 0
 
 
-    def aplicar_gravedad(self):
+    def aplicar_gravedad(self, screen, lista_img):
         if self.jumping ==  True:
+            self.draw(screen,lista_img) 
             self.rect.y += self.move_y
             if (self.move_y + self.gravity) < self.limit_vel_caida:
                 self.move_y += self.gravity
@@ -112,39 +116,50 @@ class Player:
                 self.jumping = True
 
     def update(self,screen):
-        # va pasando de frames siempre y cuando no supere el maximo; sino regresa al primer frame
-        self.control()
-        if self.action == 'jump':
-            if self.mirando_right == True:
-                self.draw(screen,self.img_jump_right )
-            else:
-                self.draw(screen,self.img_jump_left )
-        
+
         if self.action == 'walk_right':
-            if self.mirando_right == True:
+            self.mirando_right = True
+            if  not self.jumping:
                 self.draw(screen,self.img_walk_right )
-            else:
+            self.control(self.speed_walk)
+
+        elif self.action == 'walk_left': 
+            self.mirando_right = False
+            if not self.jumping:
                 self.draw(screen,self.img_walk_left )
+            self.control(self.speed_walk * -1)
+
+        elif self.action == 'jump':
+            if self.jumping == False:
+                self.jumping = True
+                self.move_y = self.height_jump
+
+        elif self.action == 'stand_up':
+            if not self.jumping:
+                if self.mirando_right == True:
+                    self.draw(screen,self.img_stand_up_right )
+                elif self.mirando_right == False: 
+                    self.draw(screen,self.img_stand_up_left )
         
+
+        if self.mirando_right == True:
+            self.aplicar_gravedad(screen, self.img_jump_right)
         else:
-            if self.mirando_right == True:
-                self.draw(screen,self.img_stand_up_right )
-            else:
-                self.draw(screen,self.img_stand_up_left )
+            self.aplicar_gravedad(screen, self.img_jump_left)
 
-        self.rect.x += self.move_x
-        self.rect.y += self.move_y
-
-        self.aplicar_gravedad()
+        # self.rect.x += self.move_x
+        # self.rect.y += self.move_y
 
     def draw(self, screen, lista_animaciones):
-        if (self.frame < len(lista_animaciones) - 1):
-            self.frame += 1
-        else:
+            
+        if (self.frame >= len(lista_animaciones) - 1):
             self.frame = 0
 
         self.img = lista_animaciones[self.frame]
         self.img = pygame.transform.scale(self.img,(130,130))
         screen.blit(self.img, self.rect)
-
+        self.frame += 1
+        
+        if self.jumping == True  and self.frame == 2:
+            self.frame = 0
 

@@ -25,18 +25,18 @@ while flag_playing:
             pygame.quit()
             sys.exit() # cierra la app
 
-        teclas = pygame.key.get_pressed()
-        if teclas[pygame.K_UP] and player.jumping == False:
-            player.action = 'jump'
-        
-        elif teclas[pygame.K_RIGHT]:
-            player.action='walk_right'
-        
-        elif teclas[pygame.K_LEFT]:
-            player.action='walk_left'
-        
-        else:
-            player.action='stand_up'
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_UP] and player.jumping == False:
+        player.action = 'jump'
+    
+    elif teclas[pygame.K_RIGHT]:
+        player.action='walk_right'
+    
+    elif teclas[pygame.K_LEFT]:
+        player.action='walk_left'
+    
+    else:
+        player.action='stand_up'
 
 
 
