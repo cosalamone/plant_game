@@ -1,3 +1,4 @@
+import random
 import time
 import pygame
 import sys
@@ -28,25 +29,31 @@ pygame.draw.line(screen, COLOR_ROJO,(0,400), (ANCHO_VENTANA,400))
 player = Player(x=25,y=550,speed_walk=10) 
 
 #Enemigos
+
+def generar_num_random():
+    posicion_x = random.randint(500, 1200)
+    return posicion_x
+print(generar_num_random())
+
 enemigos=[]
 
 nivel1 = []
-nivel1.append(Hormiga())
-nivel1.append(Caracol())
-nivel1.append(Hormiga())
+nivel1.append(Hormiga(generar_num_random()))
+nivel1.append(Caracol(generar_num_random()))
+nivel1.append(Hormiga(generar_num_random()))
 
 nivel2 = []
-nivel2.append(Caracol())
-nivel2.append(Hormiga())
-nivel2.append(Caracol())
-nivel2.append(Hormiga())
+nivel2.append(Caracol(generar_num_random()))
+nivel2.append(Hormiga(generar_num_random()))
+nivel2.append(Caracol(generar_num_random()))
+nivel2.append(Hormiga(generar_num_random()))
 
 nivel3 = []
-nivel3.append(Caracol())
-nivel3.append(Hormiga())
-nivel3.append(Mantis())
-nivel3.append(Caracol())
-nivel3.append(Hormiga())
+nivel3.append(Caracol(generar_num_random()))
+nivel3.append(Hormiga(generar_num_random()))
+nivel3.append(Mantis(generar_num_random()))
+nivel3.append(Caracol(generar_num_random()))
+nivel3.append(Hormiga(generar_num_random()))
 
 #Planta
 planta = Planta()
@@ -73,18 +80,7 @@ while flag_playing:
             flag_playing = False
             pygame.quit()
             sys.exit() # cierra la app
-    #     elif event.type == pygame.KEYDOWN:
-    #         if event.key == pygame.K_BACKSPACE:
-    #             ingreso = ingreso[0:-1]  # Método slice
-    #         elif event.key == pygame.K_RETURN:
-    #             print("Texto ingresado:", ingreso)
-    #             ingreso = ""
-    #         else:
-    #             ingreso += event.unicode  # Da el texto que se presiona en el teclado
-    # pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2)
-    # superficie_text_box = font_input.render(ingreso, True, COLOR_ROJO)
-    # screen.blit(superficie_text_box, (ingreso_rect.x + 5, ingreso_rect.y + 5))
-
+   
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_UP] and player.jumping == False:
         player.action = 'jump'
@@ -152,7 +148,6 @@ while flag_playing:
     cambio_nivel = False
 
 
-    pygame.draw.line(screen, COLOR_ROJO,(0,630), (ANCHO_VENTANA,630))
     pygame.display.flip() # se pasa todo a lo que ve el usuario
     # print(clock.tick(FPS))
 
