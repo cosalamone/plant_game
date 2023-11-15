@@ -9,6 +9,7 @@ from clases.enemigos.mantis import Mantis
 from constantes import *
 from clases.player.player import Player
 from clases.planta.planta import Planta
+from generar_random import generar_num_random
 
 
 pygame.init()
@@ -30,30 +31,30 @@ player = Player(x=25,y=550,speed_walk=10)
 
 #Enemigos
 
-def generar_num_random():
-    posicion_x = random.randint(500, 1200)
-    return posicion_x
-print(generar_num_random())
+# def generar_num_random():
+#     posicion_x = random.randint(500, 1200)
+#     return posicion_x
+# print(generar_num_random())
 
 enemigos=[]
 
 nivel1 = []
-nivel1.append(Hormiga(generar_num_random()))
-nivel1.append(Caracol(generar_num_random()))
-nivel1.append(Hormiga(generar_num_random()))
+nivel1.append(Hormiga(generar_num_random(500,1200)))
+nivel1.append(Caracol(generar_num_random(500,1200)))
+nivel1.append(Hormiga(generar_num_random(500,1200)))
 
 nivel2 = []
-nivel2.append(Caracol(generar_num_random()))
-nivel2.append(Hormiga(generar_num_random()))
-nivel2.append(Caracol(generar_num_random()))
-nivel2.append(Hormiga(generar_num_random()))
+nivel2.append(Caracol(generar_num_random(500,1200)))
+nivel2.append(Hormiga(generar_num_random(500,1200)))
+nivel2.append(Caracol(generar_num_random(500,1200)))
+nivel2.append(Hormiga(generar_num_random(500,1200)))
 
 nivel3 = []
-nivel3.append(Caracol(generar_num_random()))
-nivel3.append(Hormiga(generar_num_random()))
-nivel3.append(Mantis(generar_num_random()))
-nivel3.append(Caracol(generar_num_random()))
-nivel3.append(Hormiga(generar_num_random()))
+nivel3.append(Caracol(generar_num_random(500,1200)))
+nivel3.append(Hormiga(generar_num_random(500,1200)))
+nivel3.append(Mantis(generar_num_random(500,1200)))
+nivel3.append(Caracol(generar_num_random(500,1200)))
+nivel3.append(Hormiga(generar_num_random(500,1200)))
 
 #Planta
 planta = Planta()
@@ -80,7 +81,7 @@ while flag_playing:
             flag_playing = False
             pygame.quit()
             sys.exit() # cierra la app
-   
+
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_UP] and player.jumping == False:
         player.action = 'jump'

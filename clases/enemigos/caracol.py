@@ -1,4 +1,5 @@
 from clases.enemigos.enemigo import Enemigo
+from generar_random import generar_num_random
 
 
 class Caracol(Enemigo):
@@ -7,6 +8,6 @@ class Caracol(Enemigo):
         self.rect.y = 543
         self.rect.x = x
 
-        self.velocidad_caminar = -2
+        self.velocidad_caminar = - generar_num_random(2,7)
     
     

@@ -1,4 +1,5 @@
 from clases.enemigos.enemigo import Enemigo
+from generar_random import generar_num_random
 
 
 class Hormiga(Enemigo):
@@ -7,6 +8,6 @@ class Hormiga(Enemigo):
         self.rect.y = 543
         self.rect.x = x
         
-        self.velocidad_caminar = -5
+        self.velocidad_caminar = - generar_num_random(5,10)
     
     
