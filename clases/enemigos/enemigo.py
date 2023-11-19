@@ -3,27 +3,21 @@ import pygame
 from clases.personaje.personaje import Personaje
 from clases.planta.planta import Planta
 from constantes import *
+from generar_random import generar_num_random
 import obtener_imagenes
 
 # caminar
 # atacar
 # herir
 
-def crear_enemigos(path):
-    lista_enemigos = []
-    for i in range(random.randrange(10,50)): 
-        enemigo = pygame.transform.scale(pygame.image.load(path), (35,35))
-        rectangulo_enemigo = enemigo.get_rect()
-        posicion_x = random.randint(0, ANCHO_VENTANA)
-        posicion_y = 650
-        rectangulo_enemigo.x = posicion_x
-        rectangulo_enemigo.y = posicion_y
-        lista_enemigos.append({"imagen": path, "posicion":(posicion_x, posicion_y), "rectangulo":rectangulo_enemigo})
 
-    return lista_enemigos
+
 
 class Enemigo(Personaje):
+    
     def __init__(self, x:int,y:int,vida:int,potencia_golpe:int,enemigo:str,path:str,columnas:int=0,filas:int= 0):
+        if x == None:
+            x = generar_num_random(500,1200)
         super().__init__(x,y,vida,enemigo,path,columnas,filas)
         self.potencia_golpe = potencia_golpe
 

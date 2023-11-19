@@ -31,30 +31,55 @@ player = Player(x=25,y=550,speed_walk=10)
 
 #Enemigos
 
-# def generar_num_random():
-#     posicion_x = random.randint(500, 1200)
-#     return posicion_x
-# print(generar_num_random())
+def crear_enemigos_nivel1(cantidad_enemigos):
+    lista_enemigos = []
+    for i in range(cantidad_enemigos):
+        numero_random =random.randint(1, 10)
+        match numero_random:
+            case 1|2|3|4|5|6:
+                lista_enemigos.append(Hormiga())
+                
+            case 7|8|9|10: 
+                lista_enemigos.append(Caracol())
+
+    return lista_enemigos
+
+def crear_enemigos_nivel2(cantidad_enemigos):
+    lista_enemigos = []
+    for i in range(cantidad_enemigos):
+        numero_random =random.randint(1, 10)
+        match numero_random:
+            case 1|2|3|4|5|6:
+                lista_enemigos.append(Hormiga())
+                
+            case 7|8|9|10: 
+                lista_enemigos.append(Caracol())
+
+    return lista_enemigos
+
+def crear_enemigos_nivel3(cantidad_enemigos):
+    lista_enemigos = []
+    for i in range(cantidad_enemigos):
+        numero_random =random.randint(1, 10)
+        match numero_random:
+            case 1|2|3|4|5:
+                lista_enemigos.append(Hormiga())
+                
+            case 6|7|8: 
+                lista_enemigos.append(Caracol())
+            
+            case 9|10: 
+                lista_enemigos.append(Mantis())
+
+    return lista_enemigos
 
 enemigos=[]
 
-nivel1 = []
-nivel1.append(Hormiga(generar_num_random(500,1200)))
-nivel1.append(Caracol(generar_num_random(500,1200)))
-nivel1.append(Hormiga(generar_num_random(500,1200)))
+nivel1 = crear_enemigos_nivel1(6)
 
-nivel2 = []
-nivel2.append(Caracol(generar_num_random(500,1200)))
-nivel2.append(Hormiga(generar_num_random(500,1200)))
-nivel2.append(Caracol(generar_num_random(500,1200)))
-nivel2.append(Hormiga(generar_num_random(500,1200)))
+nivel2 = crear_enemigos_nivel2(8)
 
-nivel3 = []
-nivel3.append(Caracol(generar_num_random(500,1200)))
-nivel3.append(Hormiga(generar_num_random(500,1200)))
-nivel3.append(Mantis(generar_num_random(500,1200)))
-nivel3.append(Caracol(generar_num_random(500,1200)))
-nivel3.append(Hormiga(generar_num_random(500,1200)))
+nivel3 = crear_enemigos_nivel3(12)
 
 #Planta
 planta = Planta()
