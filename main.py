@@ -26,10 +26,14 @@ timer_segundos = pygame.USEREVENT   # en milesimas
 pygame.time.set_timer(timer_segundos, 1000)
 # Musica
 pygame.mixer.init()
-sonido_fondo = pygame.mixer.Sound('assets/audios/fondo.mp3')
-volumen = 0.02
+audio_nivel1_2 = pygame.mixer.Sound('assets/audios/audio_nivel1_2.mp3')
+audio_nivel3 = pygame.mixer.Sound('assets/audios/audio_nivel3.mp3')
 
-sonido_fondo.set_volume(volumen)
+
+volumen = 0.10
+
+audio_nivel1_2.set_volume(volumen)
+audio_nivel3.set_volume(volumen)
 
 
 
@@ -115,11 +119,17 @@ while flag_playing:
             flag_playing = False
             pygame.quit()
             sys.exit() # cierra la app
-        if event.type == pygame.USEREVENT:
-            if event.type == timer_segundos:
-                segundos += 1
-                volumen += 0.01
-                sonido_fondo.set_volume(volumen)
+        # if event.type == pygame.USEREVENT:
+        #     if event.type == timer_segundos:
+        #         segundos += 1
+        #         volumen += 0.01
+        #         audio_nivel1_2.set_volume(volumen)
+        #     segundos = 0
+        #     volumen = 0.02
+        #     if event.type == timer_segundos:
+        #         segundos += 1
+        #         volumen += 0.01s
+        #         audio_nivel3.set_volume(volumen)
 
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_UP] and player.jumping == False:
@@ -146,17 +156,22 @@ while flag_playing:
     match(nivel):
             case 1:
                 if enemigos != nivel1:
-                    # sonido_fondo.play()
+                    audio_nivel1_2.play()
                     enemigos = nivel1
                     MostrarTexto("Iniciando Nivel 1", COLOR_BLANCO, (250,250))
                     hayQueEsperar = 2
+                    
             case 2: 
                 if enemigos != nivel2:
+                    audio_nivel1_2.stop()
+                    audio_nivel1_2.play()
                     enemigos = nivel2
                     MostrarTexto("¡Superaste el nivel 1! Iniciando Nivel 2", COLOR_BLANCO, (250,250))
                     hayQueEsperar = 2
             case 3: 
                 if enemigos != nivel3:
+                    audio_nivel1_2.stop()
+                    audio_nivel3.play()
                     enemigos = nivel3
                     MostrarTexto("¡Superaste el nivel 2! Iniciando el ÚLTIMO NIVEL", COLOR_VERDE, (250,250))
                     hayQueEsperar = 2
@@ -191,7 +206,7 @@ while flag_playing:
 
     pygame.display.flip() # se pasa todo a lo que ve el usuario
     # print(clock.tick(FPS))
-sonido_fondo.stop()
+# sonido_fondo.stop()
 pygame.quit()
 
 
