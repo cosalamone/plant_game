@@ -10,9 +10,6 @@ import obtener_imagenes
 # atacar
 # herir
 
-
-
-
 class Enemigo(Personaje):
     
     def __init__(self, x:int,y:int,vida:int,potencia_golpe:int,enemigo:str,path:str,columnas:int=0,filas:int= 0):

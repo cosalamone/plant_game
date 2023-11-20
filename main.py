@@ -20,16 +20,27 @@ clock = pygame.time.Clock() #controla la cantidad de frames x segundo
 # ingreso = ""
 # ingreso_rect = pygame.Rect(200,400,150,40)
 # font_input = pygame.font.SysFont("Arial", 50)
+segundos = 0
+# Timer
+timer_segundos = pygame.USEREVENT   # en milesimas
+pygame.time.set_timer(timer_segundos, 1000)
+# Musica
+pygame.mixer.init()
+sonido_fondo = pygame.mixer.Sound('assets/audios/fondo.mp3')
+volumen = 0.02
+
+sonido_fondo.set_volume(volumen)
 
 
-#Fondo
+
+# Fondo
 img_background = pygame.image.load('assets/background/Forest of Illusion Files/Previews/Previewx3.png')
 pygame.draw.line(screen, COLOR_ROJO,(0,400), (ANCHO_VENTANA,400))
 
-#Jugador
+# Jugador
 player = Player(x=25,y=550,speed_walk=10) 
 
-#Enemigos
+# Enemigos
 
 def crear_enemigos_nivel1(cantidad_enemigos):
     lista_enemigos = []
@@ -37,10 +48,10 @@ def crear_enemigos_nivel1(cantidad_enemigos):
         numero_random =random.randint(1, 10)
         match numero_random:
             case 1|2|3|4|5|6:
-                lista_enemigos.append(Hormiga())
+                lista_enemigos.append(Caracol())
                 
             case 7|8|9|10: 
-                lista_enemigos.append(Caracol())
+                lista_enemigos.append(Hormiga())
 
     return lista_enemigos
 
@@ -81,7 +92,7 @@ nivel2 = crear_enemigos_nivel2(8)
 
 nivel3 = crear_enemigos_nivel3(12)
 
-#Planta
+# Planta
 planta = Planta()
 
 hayQueEsperar = 0
@@ -98,14 +109,17 @@ cambio_nivel = False
 posicion_inicio = 35
 
 while flag_playing:
-    
-
     lista_events = pygame.event.get()
     for event in lista_events:
         if event.type == pygame.QUIT:
             flag_playing = False
             pygame.quit()
             sys.exit() # cierra la app
+        if event.type == pygame.USEREVENT:
+            if event.type == timer_segundos:
+                segundos += 1
+                volumen += 0.01
+                sonido_fondo.set_volume(volumen)
 
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_UP] and player.jumping == False:
@@ -132,6 +146,7 @@ while flag_playing:
     match(nivel):
             case 1:
                 if enemigos != nivel1:
+                    # sonido_fondo.play()
                     enemigos = nivel1
                     MostrarTexto("Iniciando Nivel 1", COLOR_BLANCO, (250,250))
                     hayQueEsperar = 2
@@ -176,5 +191,7 @@ while flag_playing:
 
     pygame.display.flip() # se pasa todo a lo que ve el usuario
     # print(clock.tick(FPS))
+sonido_fondo.stop()
+pygame.quit()
 
 
