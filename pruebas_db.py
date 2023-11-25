@@ -29,10 +29,20 @@ with sqlite3.connect('puntajes.db') as conexion:
         pass
         # print(fila)
 
-    def obtener_puntajes():
-        cursor = conexion.execute('SELECT * FROM puntajes order by puntos desc') # obtenidos según puntaje descendente
+    def obtener_top_puntajes():
+        cursor = conexion.execute('SELECT * FROM puntajes order by puntos desc LIMIT 5') # obtenidos según puntaje descendente
         puntajes = 'Nombre  -   Puntaje \n'
         for fila in cursor:
             puntajes += f'{fila[1]}  - {fila[2]} \n'
         print(puntajes) 
         return puntajes
+    
+    def guardar_nuevo_puntaje(nombre,puntos,tiempo):
+        try: 
+            conexion.execute('INSERT into puntajes(nombre,puntos,tiempo) values (?,?,?)', (nombre, puntos, tiempo))
+            conexion.commit() # Actualiza los datos de la tabla
+        except:
+            print('Ocurrió un error')
+
+# guardar_nuevo_puntaje('pedro',50,1000)
+# obtener_puntajes()

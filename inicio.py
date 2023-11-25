@@ -28,16 +28,28 @@ font = pygame.font.SysFont("Arial", 30, bold=True)
 ingreso = ""  # donde se va a guardar lo que ingrese el usuario 
 ingreso_rect = pygame.Rect(200, 200, 150, 40)
 
-respuesta = obtener_puntajes()
+
+
+respuesta = obtener_top_puntajes()
 respuesta = str(respuesta)
 respuesta = respuesta.split('\n')
 
 reloj = pygame.time.Clock()
 screen.blit(img_background, img_background.get_rect())
 
+cargar_datos = True
+
 correr = True
 while correr:
     milis = reloj.tick(20)
+    if cargar_datos:
+        guardar_nuevo_puntaje('papap',730,4000)
+        guardar_nuevo_puntaje('qweqwe',7030,4000)
+        guardar_nuevo_puntaje('tttt',2030,4000)
+        cargar_datos = False
+        respuesta = obtener_top_puntajes()
+        respuesta = str(respuesta)
+        respuesta = respuesta.split('\n')
 
     lista_eventos = pygame.event.get()
     for evento in lista_eventos:
