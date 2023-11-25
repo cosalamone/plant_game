@@ -28,8 +28,6 @@ font = pygame.font.SysFont("Arial", 30)
 ingreso = ""  # donde se va a guardar lo que ingrese el usuario 
 ingreso_rect = pygame.Rect(200, 200, 150, 40)
 
-
-
 respuesta = obtener_top_puntajes()
 respuesta = str(respuesta)
 respuesta = respuesta.split('\n')
@@ -42,14 +40,6 @@ cargar_datos = True
 correr = True
 while correr:
     milis = reloj.tick(20)
-    if cargar_datos:
-        guardar_nuevo_puntaje('papap',5730,4000)
-        guardar_nuevo_puntaje('qweqwe',17030,4000)
-        guardar_nuevo_puntaje('tttt',8030,4000)
-        cargar_datos = False
-        respuesta = obtener_top_puntajes()
-        respuesta = str(respuesta)
-        respuesta = respuesta.split('\n')
 
     lista_eventos = pygame.event.get()
     for evento in lista_eventos:
@@ -63,6 +53,13 @@ while correr:
                 ingreso = ''
             else:
                 ingreso += evento.unicode  # Da el texto que se presionó en el teclado
+    
+    if cargar_datos:
+        guardar_nuevo_puntaje('sdf',5730,4000)
+        cargar_datos = False
+        respuesta = obtener_top_puntajes()
+        respuesta = str(respuesta)
+        respuesta = respuesta.split('\n')    
 
     screen.fill(COLOR_NEGRO)
     screen.blit(img_background, img_background.get_rect())
@@ -71,6 +68,10 @@ while correr:
     titulo_puntajes_surface = font_titulos.render(titulo_puntajes, True, COLOR_BLANCO)
 
     screen.blit(titulo_puntajes_surface, (200, 180))
+
+    # pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2) # 2px de borde
+    # font_input_surface = font.render(ingreso, True, COLOR_NEGRO)
+    # screen.blit(font_input_surface, (ingreso_rect.x + 6, ingreso_rect.y + 4)) # para que quede bien encuadrado en el rectangulo del 'input'
 
     font_respuesta_surface = [font.render(rta, True, COLOR_BLANCO) for rta in respuesta]
     # Obtener alturas de cada superficie

@@ -45,4 +45,4 @@ with sqlite3.connect('puntajes.db') as conexion:
             print('Ocurrió un error')
 
 # guardar_nuevo_puntaje('pedro',50,1000)
-# obtener_puntajes()
+# obtener_top_puntajes()
