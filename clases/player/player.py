@@ -114,8 +114,6 @@ class Player(Personaje):
         elif self.action == 'walk_left': 
             self.walk(screen, 'walk_left')
         elif self.action == 'stand_up':
-            # if cambio_nivel == True:
-            #     self.rect.x = 35
             self.stand_up(screen,'stand_up', posicion_inicio,cambio_nivel )
         elif self.action == 'jump':
             self.jump()
@@ -127,9 +125,6 @@ class Player(Personaje):
         else:
             self.aplicar_gravedad(screen, self.img_jump_left)
         
-
-
-
 
     def draw(self, screen, lista_animaciones):
         if (self.frame >= len(lista_animaciones) - 1):

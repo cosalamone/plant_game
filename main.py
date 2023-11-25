@@ -30,7 +30,7 @@ audio_nivel1_2 = pygame.mixer.Sound('assets/audios/audio_nivel1_2.mp3')
 audio_nivel3 = pygame.mixer.Sound('assets/audios/audio_nivel3.mp3')
 
 
-volumen = 0.10
+volumen = 0.50
 
 audio_nivel1_2.set_volume(volumen)
 audio_nivel3.set_volume(volumen)
