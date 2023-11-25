@@ -12,19 +12,19 @@ pygame.display.set_caption('Save the plant!')
 img_background = pygame.image.load('assets/background/Forest of Illusion Files/Previews/Previewx3.png')
 
 # Titulo PUNTAJES
-titulo_puntajes = 'ESTOS SON LOS MEJORES PUNTAJES: '
+titulo_puntajes = 'ESTOS SON LOS MEJORES 5 PUNTAJES: '
 titulo_puntajes_rect = pygame.Rect(200, 200, 150, 40)
 # Crear una superficie con transparencia
 transparent_surface = pygame.Surface((ANCHO_VENTANA, ALTO_VENTANA), pygame.SRCALPHA)
 
-# Configurar el color gris con 50% de opacidad (128 de alpha)
-gray_color = (80, 130, 62, 128)  # PASARLO A CONSTANTES
-
 # Dibujar un rectángulo gris en la superficie transparente
-pygame.draw.rect(transparent_surface, gray_color, (150, 150, 700, 400))
+pygame.draw.rect(transparent_surface, COLOR_VERDE_TRANSPARENTE, (150, 150, 700, 400))
+
+# Fonts
+font_titulos = pygame.font.SysFont("Arial", 30, bold=True)
+font = pygame.font.SysFont("Arial", 30)
 
 # Input
-font = pygame.font.SysFont("Arial", 30, bold=True)
 ingreso = ""  # donde se va a guardar lo que ingrese el usuario 
 ingreso_rect = pygame.Rect(200, 200, 150, 40)
 
@@ -43,9 +43,9 @@ correr = True
 while correr:
     milis = reloj.tick(20)
     if cargar_datos:
-        guardar_nuevo_puntaje('papap',730,4000)
-        guardar_nuevo_puntaje('qweqwe',7030,4000)
-        guardar_nuevo_puntaje('tttt',2030,4000)
+        guardar_nuevo_puntaje('papap',5730,4000)
+        guardar_nuevo_puntaje('qweqwe',17030,4000)
+        guardar_nuevo_puntaje('tttt',8030,4000)
         cargar_datos = False
         respuesta = obtener_top_puntajes()
         respuesta = str(respuesta)
@@ -68,7 +68,7 @@ while correr:
     screen.blit(img_background, img_background.get_rect())
     screen.blit(transparent_surface, (0, 0))
 
-    titulo_puntajes_surface = font.render(titulo_puntajes, True, COLOR_BLANCO)
+    titulo_puntajes_surface = font_titulos.render(titulo_puntajes, True, COLOR_BLANCO)
 
     screen.blit(titulo_puntajes_surface, (200, 180))
 
@@ -79,6 +79,6 @@ while correr:
     y_positions = [sum(line_heights[:i]) for i in range(len(respuesta))]
 
     for i, surface in enumerate(font_respuesta_surface):
-        screen.blit(surface, (350, y_positions[i] + 350))
+        screen.blit(surface, (350, y_positions[i] + 250))
 
     pygame.display.flip()
