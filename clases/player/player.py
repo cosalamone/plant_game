@@ -141,12 +141,12 @@ class Player(Personaje):
         
             if self.jumping == True and self.frame == 2:
                 self.frame = 0
-        font = pygame.font.SysFont('Arial Narrow', 50)
+        font = pygame.font.SysFont('Arial Narrow', 35)
         text = font.render(f'SCORE: {self.score}', True, COLOR_BLANCO)
         screen.blit(text, (10,10))
         
         if self.vida >= 0:
-            font = pygame.font.SysFont('Arial Narrow', 50)
+            font = pygame.font.SysFont('Arial Narrow', 35)
             text = font.render(f'VIDA PLAYER: {self.vida}', True, COLOR_BLANCO)
             screen.blit(text, (240, 10))
 

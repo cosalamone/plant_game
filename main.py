@@ -36,6 +36,8 @@ segundos = 0
 # Timer
 timer_segundos = pygame.USEREVENT   # en milesimas
 pygame.time.set_timer(timer_segundos, 1000)
+tiempo = 0
+font_timer = pygame.font.SysFont('Arial Narrow', 35)
 
 # region Musica
 pygame.mixer.init()
@@ -67,14 +69,12 @@ def MostrarTexto (Texto, Color, Posicion):
     text = font.render(Texto, True, Color)
     screen.blit(text, Posicion)
 
-
-
 def reiniciarJuego():
     global nivel, cambio_nivel, player, enemigos, nivel1, nivel2, nivel3, planta, posicion_inicio, flag_playing, hayQueEsperar
-    global boton_jugar,boton_puntos,boton_volver,enter,cargar_datos
+    global boton_jugar,boton_puntos,boton_volver,enter,cargar_datos,iniciando_timer
 
     hayQueEsperar = 0
-
+    iniciando_timer = False
     boton_jugar = None
     boton_puntos = None
     boton_volver = None
@@ -105,6 +105,13 @@ reiniciarJuego()
 
 seccion = 'inicio'  # opciones: inicio, jugando, puntajes, cargando_puntos 
 
+# def iniciar_tiempo():
+#     if event.type == pygame.USEREVENT:
+#         if event.type == timer_segundos:
+#             if seccion == 'jugando' and iniciando_timer:
+#                 segundos += 1
+
+
 while flag_playing:
     lista_events = pygame.event.get()
     for event in lista_events:
@@ -112,6 +119,12 @@ while flag_playing:
             flag_playing = False
             pygame.quit()
             sys.exit() # cierra la app
+
+        if event.type == pygame.USEREVENT:
+            if event.type == timer_segundos:
+                if seccion == 'jugando' and iniciando_timer:
+                    segundos += 1
+
 
         elif event.type == pygame.KEYDOWN and seccion == 'cargando_puntos':
             if event.key == pygame.K_BACKSPACE:
@@ -179,8 +192,10 @@ while flag_playing:
         delta_ms = clock.tick(FPS) # limita la cantidad de veces x seg que se genera el while
         screen.blit(img_background,img_background.get_rect())
         if hayQueEsperar > 0:
-            time.sleep(hayQueEsperar)
-            hayQueEsperar = 0
+            time.sleep(1)  # Esperar 1 segundo
+            hayQueEsperar -= 1
+            if hayQueEsperar == 0:
+                iniciando_timer = True  # Comienza el temporizador después de la espera
 
         # region Niveles
         match(nivel):
@@ -189,7 +204,7 @@ while flag_playing:
                         audio_nivel1_2.play()
                         enemigos = nivel1
                         MostrarTexto("Iniciando Nivel 1", COLOR_BLANCO, (250,250))
-                        hayQueEsperar = 2
+                        hayQueEsperar = 2                       
                         
                 case 2: 
                     if enemigos != nivel2:
@@ -233,11 +248,12 @@ while flag_playing:
         
         player.update(screen, posicion_inicio, cambio_nivel)
         planta.update(screen)
+        segundos_texto = font_timer.render(f'TIEMPO: {str(segundos)}',True, COLOR_BLANCO)
+        screen.blit(segundos_texto, (850,10))
         cambio_nivel = False
 
 
         pygame.display.flip() # se pasa todo a lo que ve el usuario
-        # print(clock.tick(FPS))
 
     if seccion == 'puntajes':
         
@@ -300,7 +316,6 @@ while flag_playing:
 
 
         pygame.display.flip()  
-# sonido_fondo.stop()
 pygame.quit()
 
 

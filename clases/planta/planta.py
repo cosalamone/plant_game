@@ -24,6 +24,6 @@ class Planta(Personaje):
             self.frame += 1
 
         if self.vida >= 0:
-            font = pygame.font.SysFont('Arial Narrow', 50)
+            font = pygame.font.SysFont('Arial Narrow', 35)
             text = font.render(f'VIDA PLANTA: {self.vida}', True, COLOR_BLANCO)
             screen.blit(text, (600, 10))
