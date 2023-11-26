@@ -26,7 +26,6 @@ class Personaje():
         print(self.vida)
         if self.vida <= 0:
             self.visible = False
-            
             return 'muerto'
         
         
@@ -37,5 +36,3 @@ class Personaje():
             print('hubo colision',self.contador_ataques)
             return self.herido(atacante.potencia_golpe)
 
-    def draw(self, screen):
-        pass

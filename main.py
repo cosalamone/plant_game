@@ -70,7 +70,7 @@ pygame.draw.rect(transparent_surface, COLOR_VERDE_TRANSPARENTE, (150, 150, 700, 
 def reiniciarJuego():
     global nivel, cambio_nivel, player, enemigos, nivel1, nivel2, nivel3, planta 
     global posicion_inicio, flag_playing, hayQueEsperar,  boton_jugar,boton_puntos,boton_volver
-    global enter,cargar_datos,iniciando_timer,ingreso,datos_cargados
+    global enter,cargar_datos,iniciando_timer,ingreso,datos_cargados,huboSegundosDeEspera
 
     datos_cargados = False
     hayQueEsperar = 0
@@ -84,6 +84,7 @@ def reiniciarJuego():
     flag_playing = True
     nivel = 1
     cambio_nivel = False
+    huboSegundosDeEspera = None
 
     # Jugador
     player = Player(x=25,y=550,speed_walk=10) 
@@ -297,6 +298,7 @@ while flag_playing:
             modo = 'inicio'
             
         # pygame.display.flip()  
+    
     pygame.display.flip()
 pygame.quit()
 

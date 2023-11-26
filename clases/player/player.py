@@ -6,7 +6,7 @@ import obtener_imagenes
 
 class Player(Personaje):
     def __init__(self,x:int,y:int,speed_walk:int,) -> None:
-        super().__init__(x,y,50,'',None,0,0)
+        super().__init__(x,y,150,'',None,0,0)
         self.mirando_der = True
 
         self.action = 'quieto'

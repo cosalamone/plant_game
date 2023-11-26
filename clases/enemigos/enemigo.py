@@ -43,5 +43,3 @@ class Enemigo(Personaje):
         if self.visible == True:
             screen.blit(self.img, self.rect)
             self.frame += 1
-
-
