@@ -69,9 +69,9 @@ while correr:
 
     screen.blit(titulo_puntajes_surface, (200, 180))
 
-    # pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2) # 2px de borde
-    # font_input_surface = font.render(ingreso, True, COLOR_NEGRO)
-    # screen.blit(font_input_surface, (ingreso_rect.x + 6, ingreso_rect.y + 4)) # para que quede bien encuadrado en el rectangulo del 'input'
+    pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2) # 2px de borde
+    font_input_surface = font.render(ingreso, True, COLOR_NEGRO)
+    screen.blit(font_input_surface, (ingreso_rect.x + 6, ingreso_rect.y + 4)) # para que quede bien encuadrado en el rectangulo del 'input'
 
     font_respuesta_surface = [font.render(rta, True, COLOR_BLANCO) for rta in respuesta]
     # Obtener alturas de cada superficie

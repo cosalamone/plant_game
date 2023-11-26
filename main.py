@@ -17,7 +17,7 @@ font_titulos = pygame.font.SysFont("Arial", 30, bold=True)
 font_puntajes = pygame.font.SysFont("Arial", 30)
 
 # Input
-ingreso = ""  # donde se va a guardar lo que ingrese el usuario 
+ingreso = ''  # donde se va a guardar lo que ingrese el usuario 
 ingreso_rect = pygame.Rect(200, 200, 150, 40)
 
 respuesta = obtener_top_puntajes()
@@ -30,6 +30,7 @@ jugar_rect = pygame.Rect(200, 200, 225, 50)
 puntos = 'VER PUNTAJES'
 puntos_rect = pygame.Rect(500, 200, 250, 50)
 # endregion
+
 
 segundos = 0
 # Timer
@@ -58,41 +59,51 @@ btn_volver_rect = pygame.Rect(700, 500, 150, 50)
 
 # superficie con transparencia
 transparent_surface = pygame.Surface((ANCHO_VENTANA, ALTO_VENTANA), pygame.SRCALPHA)
-
-# Dibujar la superficie transparente
 pygame.draw.rect(transparent_surface, COLOR_VERDE_TRANSPARENTE, (150, 150, 700, 400))
 # endregion
 
-# Jugador
-player = Player(x=25,y=550,speed_walk=10) 
-
-# region Enemigos
-enemigos=[]
-
-nivel1 = crear_enemigos_nivel1(6)
-nivel2 = crear_enemigos_nivel2(8)
-nivel3 = crear_enemigos_nivel3(12)
-# endregion
-
-# Planta
-planta = Planta()
-
-hayQueEsperar = 0
-
-seccion = 'inicio'  # opciones: inicio, jugando, puntajes, cargando_puntos 
-boton_jugar = None
-boton_puntos = None
-boton_volver = None
 def MostrarTexto (Texto, Color, Posicion):
     font = pygame.font.SysFont('Arial Narrow', 50)
     text = font.render(Texto, True, Color)
     screen.blit(text, Posicion)
 
 
-flag_playing = True
-nivel = 1
-cambio_nivel = False
-posicion_inicio = 35
+
+def reiniciarJuego():
+    global nivel, cambio_nivel, player, enemigos, nivel1, nivel2, nivel3, planta, posicion_inicio, flag_playing, hayQueEsperar
+    global boton_jugar,boton_puntos,boton_volver,enter,cargar_datos
+
+    hayQueEsperar = 0
+
+    boton_jugar = None
+    boton_puntos = None
+    boton_volver = None
+    enter = False
+
+    cargar_datos = True
+    flag_playing = True
+    nivel = 1
+    cambio_nivel = False
+    # Jugador
+    player = Player(x=25,y=550,speed_walk=10) 
+    
+    # region Enemigos
+    enemigos=[]
+    
+    
+    nivel1 = crear_enemigos_nivel1(6)
+    nivel2 = crear_enemigos_nivel2(8)
+    nivel3 = crear_enemigos_nivel3(12)
+    # endregion
+    
+    # Planta
+    planta = Planta()
+
+    posicion_inicio = 35
+
+reiniciarJuego()
+
+seccion = 'inicio'  # opciones: inicio, jugando, puntajes, cargando_puntos 
 
 while flag_playing:
     lista_events = pygame.event.get()
@@ -102,12 +113,13 @@ while flag_playing:
             pygame.quit()
             sys.exit() # cierra la app
 
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN and seccion == 'cargando_puntos':
             if event.key == pygame.K_BACKSPACE:
                 ingreso = ingreso[0:-1]  # Método slice
             elif event.key == pygame.K_RETURN:
                 print("Texto ingresado:", ingreso)
-                ingreso = ''
+                enter = True
+                # ingreso = ''
             else:
                 ingreso += event.unicode  # Da el texto que se presionó en el teclado
 
@@ -211,12 +223,13 @@ while flag_playing:
 
                 if nivel > 3:
                     MostrarTexto("******** GANASTE !!  ********", COLOR_BLANCO, (250,250))
-                    hayQueEsperar = 10
+                    hayQueEsperar = 3
+                    seccion = 'cargando_puntos'
 
         if planta.vida <= 0 or player.vida <= 0:
-                MostrarTexto("******** GAME OVER ********", COLOR_ROJO, (250,250))
-                hayQueEsperar = 10
-
+            MostrarTexto("******** GAME OVER ********", COLOR_ROJO, (250,250))
+            hayQueEsperar = 3
+            seccion = 'cargando_puntos'
         
         player.update(screen, posicion_inicio, cambio_nivel)
         planta.update(screen)
@@ -228,7 +241,7 @@ while flag_playing:
 
     if seccion == 'puntajes':
         
-        screen.fill(COLOR_NEGRO)
+        # screen.fill(COLOR_NEGRO)
         screen.blit(img_background, img_background.get_rect())
         screen.blit(transparent_surface, (0, 0))
 
@@ -257,7 +270,36 @@ while flag_playing:
         pygame.display.flip()
 
     if seccion == 'cargando_puntos':
-        pass
+        screen.blit(img_background, img_background.get_rect())
+        screen.blit(transparent_surface, (0, 0))
+        pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2) # 2px de borde
+        font_input_surface = font_puntajes.render(ingreso, True, COLOR_NEGRO)
+        screen.blit(font_input_surface, (ingreso_rect.x + 6, ingreso_rect.y + 4)) # para que quede bien encuadrado en el rectangulo del 'input'
+
+        if ingreso != '' and cargar_datos and enter:
+            guardar_nuevo_puntaje(ingreso,player.score,4000)
+            cargar_datos = False 
+            respuesta = obtener_top_puntajes()
+            respuesta = str(respuesta).upper()
+            respuesta = respuesta.split('\n')
+            # screen.fill(COLOR_NEGRO)
+            ingreso = ''
+            reiniciarJuego()
+
+
+        pygame.draw.rect(screen, COLOR_VERDE_SECO, btn_volver_rect)
+        btn_volver_surface = font_titulos.render(btn_volver, True, COLOR_BLANCO)
+
+        btn_volver_pos = (btn_volver_rect.centerx - btn_volver_surface.get_width() // 2, btn_volver_rect.centery - btn_volver_surface.get_height() // 2)
+
+
+        screen.blit(btn_volver_surface, btn_volver_pos)
+
+        if boton_volver:
+            seccion = 'inicio'
+
+
+        pygame.display.flip()  
 # sonido_fondo.stop()
 pygame.quit()
 
