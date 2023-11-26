@@ -1,6 +1,7 @@
 import pygame
 from clases.personaje.personaje import Personaje
 from constantes import *
+from funciones import mostrar_texto
 import obtener_imagenes
 
 
@@ -18,12 +19,9 @@ class Planta(Personaje):
             self.frame = 0
 
         self.img = animation[self.frame]
-        # pygame.draw.rect(screen,COLOR_GRIS_CLARO,self.rect)
         if self.visible == True:
             screen.blit(self.img, self.rect)
             self.frame += 1
 
         if self.vida >= 0:
-            font = pygame.font.SysFont('Arial Narrow', 35)
-            text = font.render(f'VIDA PLANTA: {self.vida}', True, COLOR_BLANCO)
-            screen.blit(text, (600, 10))
+            mostrar_texto(screen,f'VIDA PLANTA: {self.vida}', COLOR_BLANCO,(600, 10),25)

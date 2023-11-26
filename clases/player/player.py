@@ -1,6 +1,7 @@
 import pygame
 from clases.personaje.personaje import Personaje
 from constantes import *
+from funciones import mostrar_texto
 import obtener_imagenes
 
 class Player(Personaje):
@@ -132,23 +133,19 @@ class Player(Personaje):
 
         self.img = lista_animaciones[self.frame]
         self.img = pygame.transform.scale(self.img,(100,100))
-        # pygame.draw.rect(screen,COLOR_AMARILLO,self.rect)
 
-        # pygame.draw.rect(screen,COLOR_NEGRO, self.rect_collision)
         if self.visible == True:
             screen.blit(self.img, self.rect)
             self.frame += 1
         
             if self.jumping == True and self.frame == 2:
                 self.frame = 0
-        font = pygame.font.SysFont('Arial Narrow', 35)
-        text = font.render(f'SCORE: {self.score}', True, COLOR_BLANCO)
-        screen.blit(text, (10,10))
+        mostrar_texto(screen,f'SCORE: {self.score}', COLOR_BLANCO,(10, 10),25)
+
         
         if self.vida >= 0:
-            font = pygame.font.SysFont('Arial Narrow', 35)
-            text = font.render(f'VIDA PLAYER: {self.vida}', True, COLOR_BLANCO)
-            screen.blit(text, (240, 10))
+            mostrar_texto(screen,f'VIDA PLAYER: {self.vida}', COLOR_BLANCO,(240, 10),25)
+
 
 
 
