@@ -1,3 +1,4 @@
+import random
 import pygame
 from constantes import *
 
@@ -14,3 +15,7 @@ def mostrar_texto (screen, Texto, Color, Posicion, tamaño, fondo=False):
         pygame.draw.rect(transparent_surface, COLOR_VERDE_SECO_TRANSPARENTE, text_rect)
         screen.blit(transparent_surface, Posicion)
     screen.blit(text, Posicion)
+
+def generar_num_random(inicio,fin):
+    posicion_x = random.randint(inicio, fin)
+    return posicion_x

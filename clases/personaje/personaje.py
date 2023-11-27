@@ -23,7 +23,6 @@ class Personaje():
     def herido(self, daño):
         self.rect.x -= self.velocidad_caminar * 10
         self.vida -= daño
-        print(self.vida)
         if self.vida <= 0:
             self.visible = False
             return 'muerto'
@@ -33,6 +32,5 @@ class Personaje():
         huboColision = atacante.rect.colliderect(self.rect)
         if self.visible == True and huboColision:
             self.contador_ataques += 1
-            print('hubo colision',self.contador_ataques)
             return self.herido(atacante.potencia_golpe)
 

@@ -15,7 +15,6 @@ def get_surface_from_spritsheet(path:str,columnas:int,filas:int,flip:bool=False,
         for fila in range(filas):
             x = columna * fotograma_ancho
             y = fila * fotograma_alto
-            # print(x,y,fotograma_alto, fotograma_ancho)
             surface_fotograma = surface_img.subsurface(x,y,fotograma_ancho,fotograma_alto)
             
             if flip == True:

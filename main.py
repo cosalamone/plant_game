@@ -6,7 +6,7 @@ from clases.player.player import Player
 from clases.planta.planta import Planta
 from crear_enemigos import *
 from funciones import mostrar_texto 
-from pruebas_db import * 
+from puntajes_db import * 
 
 
 pygame.init()
@@ -64,7 +64,6 @@ btn_volver_rect = pygame.Rect(700, 500, 150, 50)
 transparent_surface = pygame.Surface((ANCHO_VENTANA, ALTO_VENTANA), pygame.SRCALPHA)
 pygame.draw.rect(transparent_surface, COLOR_VERDE_TRANSPARENTE, (150, 150, 700, 400))
 # endregion
-
 
 
 def reiniciarJuego():
@@ -134,7 +133,6 @@ while flag_playing:
             boton_jugar = (x > 200 and x < 425) and (y > 200 and y < 250)
             boton_puntos = (x > 500 and x < 750) and (y > 200 and y < 250)
             boton_volver = (x > 700 and x < 850) and (y > 500 and y < 550)
-            print("Se hizo clic en las coordenadas:", x, y)
 
     if hayQueEsperar > 0:
         time.sleep(hayQueEsperar)
@@ -162,8 +160,6 @@ while flag_playing:
             modo = 'jugando'
         if boton_puntos:
             modo = 'puntajes'
-
-        # pygame.display.flip()
 
     elif modo == 'jugando': 
 
@@ -242,8 +238,6 @@ while flag_playing:
         planta.update(screen)
         cambio_nivel = False
 
-        # pygame.display.flip() # se pasa todo a lo que ve el usuario
-
     elif modo == 'puntajes':
 
         respuesta = obtener_top_puntajes()
@@ -255,25 +249,30 @@ while flag_playing:
 
         pygame.draw.rect(screen, COLOR_VERDE_SECO, btn_volver_rect)
         mostrar_texto(screen,'ESTOS SON LOS MEJORES 5 PUNTAJES: ', COLOR_BLANCO,(200, 180),30, True)
+        mostrar_texto(screen,'Nombre    -    Puntaje    -    Tiempo',COLOR_BLANCO,(250, 230),30, True)
 
+        # creo la supfcie del texto
         btn_volver_surface = font_titulos.render(btn_volver, True, COLOR_BLANCO)
-        btn_volver_pos = (btn_volver_rect.centerx - btn_volver_surface.get_width() // 2, btn_volver_rect.centery - btn_volver_surface.get_height() // 2)
-
+        # calculo la ubicacion del btn
+        btn_volver_pos = (btn_volver_rect.centerx - btn_volver_surface.get_width() / 2, btn_volver_rect.centery - btn_volver_surface.get_height() / 2)
         screen.blit(btn_volver_surface, btn_volver_pos)
 
+        # lista de superficies de cada rta de db
         font_respuesta_surface = [font_puntajes.render(rta, True, COLOR_BLANCO) for rta in respuesta]
-        # Obtener alturas de cada superficie
-        line_heights = [surface.get_height() for surface in font_respuesta_surface]
-        # Calcular la posición vertical de cada línea
-        y_positions = [sum(line_heights[:i]) for i in range(len(respuesta))]
+        # obtiene el hight de cada surface de la lista
+        linea_height = [surface.get_height() for surface in font_respuesta_surface]
+        suma_alturas = 0
+        y_positions = []
+
+        for altura in linea_height:
+            suma_alturas += altura
+            y_positions.append(suma_alturas)
 
         for i, surface in enumerate(font_respuesta_surface):
-            screen.blit(surface, (350, y_positions[i] + 250))
+            screen.blit(surface, (300, y_positions[i] + 270))
 
         if boton_volver:
             modo = 'inicio'
-
-        # pygame.display.flip()
 
     elif modo == 'cargando_puntos':
         screen.blit(img_background, img_background.get_rect())
@@ -296,10 +295,6 @@ while flag_playing:
         elif datos_cargados:
             reiniciarJuego()
             modo = 'inicio'
-            
-        # pygame.display.flip()  
-    
-    pygame.display.flip()
+                
+    pygame.display.flip()  # se pasa todo a lo que ve el usuario
 pygame.quit()
-
-

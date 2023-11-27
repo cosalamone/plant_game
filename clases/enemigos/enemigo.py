@@ -3,12 +3,10 @@ import pygame
 from clases.personaje.personaje import Personaje
 from clases.planta.planta import Planta
 from constantes import *
-from generar_random import generar_num_random
+from funciones import generar_num_random
 import obtener_imagenes
 
-# caminar
-# atacar
-# herir
+
 
 class Enemigo(Personaje):
     

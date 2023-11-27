@@ -1,5 +1,5 @@
 from clases.enemigos.enemigo import Enemigo
-from generar_random import generar_num_random
+from funciones import generar_num_random
 
 
 class Hormiga(Enemigo):

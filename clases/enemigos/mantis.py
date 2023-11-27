@@ -1,6 +1,6 @@
 from clases.enemigos.enemigo import Enemigo
 from clases.player.player import Player
-from generar_random import generar_num_random
+from funciones import generar_num_random
 
 
 class Mantis(Enemigo):
