@@ -11,22 +11,22 @@ class Player(Personaje):
 
         self.action = 'quieto'
         self.img_walk_right = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
+            './assets/characters/GraveRobber/GraveRobber_walk.png',6,1)
         self.img_walk_left = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
+            './assets/characters/GraveRobber/GraveRobber_walk.png',6,1,True)
 
         self.img_stand_up_right = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_idle.png',4,1)
+            './assets/characters/GraveRobber/GraveRobber_idle.png',4,1)
         self.img_stand_up_left = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_idle.png',4,1, True)
+            './assets/characters/GraveRobber/GraveRobber_idle.png',4,1, True)
         
         self.img_jump_right = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_jump.png',6,1)
+            './assets/characters/GraveRobber/GraveRobber_jump.png',6,1)
         self.img_jump_left = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_jump.png',6,1,True)
+            './assets/characters/GraveRobber/GraveRobber_jump.png',6,1,True)
         
         self.img_attack_right = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_attack2.png',6,1)
+            './assets/characters/GraveRobber/GraveRobber_attack2.png',6,1)
         self.jumping = False
         self.height_jump = -20
 
@@ -34,9 +34,9 @@ class Player(Personaje):
         self.gravity = 4
 
         self.img_hurt = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_hurt.png',3,1)
+            './assets/characters/GraveRobber/GraveRobber_hurt.png',3,1)
         self.img_death = obtener_imagenes.get_surface_from_spritsheet(
-            'assets/characters/GraveRobber/GraveRobber_death.png',6,1)
+            './assets/characters/GraveRobber/GraveRobber_death.png',6,1)
 
         self.frame = 0
         self.score = 0

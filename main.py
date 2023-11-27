@@ -42,15 +42,15 @@ font_timer = pygame.font.SysFont('Arial Narrow', 35)
 
 # region Musica
 pygame.mixer.init()
-audio_nivel1_2 = pygame.mixer.Sound('assets/audios/audio_nivel1_2.mp3')
-audio_nivel3 = pygame.mixer.Sound('assets/audios/audio_nivel3.mp3')
+audio_nivel1_2 = pygame.mixer.Sound('./assets/audios/audio_nivel1_2.mp3')
+audio_nivel3 = pygame.mixer.Sound('./assets/audios/audio_nivel3.mp3')
 volumen = 0.50
 audio_nivel1_2.set_volume(volumen)
 audio_nivel3.set_volume(volumen)
 # endregion
 
 # Fondo
-img_background = pygame.image.load('assets/background/Forest of Illusion Files/Previews/Previewx3.png')
+img_background = pygame.image.load('./assets/background/Forest of Illusion Files/Previews/Previewx3.png')
 
 # region Pantalla Puntajes
 titulo_puntajes = 'ESTOS SON LOS MEJORES 5 PUNTAJES: '
@@ -84,7 +84,8 @@ def reiniciarJuego():
     nivel = 1
     cambio_nivel = False
     huboSegundosDeEspera = None
-
+    audio_nivel1_2.stop()
+    audio_nivel3.stop()
     # Jugador
     player = Player(x=25,y=550,speed_walk=10) 
     
@@ -227,11 +228,15 @@ while flag_playing:
                     mostrar_texto(screen,"******** GANASTE !!  ********",COLOR_BLANCO,(250,250),35,True)
                     hayQueEsperar = 3
                     modo = 'cargando_puntos'
+                    # audio_nivel1_2.stop()
+
 
         if planta.vida <= 0 or player.vida <= 0:
             mostrar_texto(screen,"******** GAME OVER ********", COLOR_ROJO,(250,250),35,True)
             hayQueEsperar = 3
             modo = 'cargando_puntos'
+            # audio_nivel1_2.stop()
+
         
         mostrar_texto(screen,f'TIEMPO: {str(segundos)}',COLOR_BLANCO,(850, 10),25)
         player.update(screen, posicion_inicio, cambio_nivel)

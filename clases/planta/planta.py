@@ -8,7 +8,7 @@ import obtener_imagenes
 
 class Planta(Personaje):
     def __init__(self):
-        super().__init__(15,581,250,'planta','assets/Cactus_Sprite_Sheet_baby_3.png',2,1)
+        super().__init__(15,581,250,'planta','./assets/Cactus_Sprite_Sheet_baby_3.png',2,1)
 
 
     def update(self,screen) :
