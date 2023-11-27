@@ -266,7 +266,8 @@ while flag_playing:
         for altura in linea_height:
             suma_alturas += altura
             y_positions.append(suma_alturas)
-
+            
+        # seteo cada dato en su respectiva columna 
         for i, surface in enumerate(font_nombre_surface):
             screen.blit(surface, (280, y_positions[i] + 270))
         for i, surface in enumerate(font_puntos_surface):
