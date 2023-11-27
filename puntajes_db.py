@@ -15,18 +15,16 @@ with sqlite3.connect('puntajes.db') as conexion:
     except sqlite3.OperationalError:
         print('La tabla ya existe')
 
-
     cursor = conexion.execute('SELECT * FROM puntajes')
-
 
     def obtener_top_puntajes():
         cursor = conexion.execute('SELECT * FROM puntajes order by puntos desc LIMIT 5') # obtenidos s/puntaje descendente
-        puntajes = ''
+        puntos = []
         for fila in cursor:
-            puntajes += f'{fila[1]}       -   {fila[2]}    -         {fila[3]} \n'
-        return puntajes
+            puntos.append({'nombre':fila[1], 'puntos': fila[2],'tiempo': fila[3] })
+        return puntos
     
-    def guardar_nuevo_puntaje(nombre,puntos,tiempo):
+    def guardar_nuevo_puntaje(nombre:str,puntos:int,tiempo:int):
         try: 
             conexion.execute('INSERT into puntajes(nombre,puntos,tiempo) values (?,?,?)', (nombre, puntos, tiempo))
             conexion.commit() # Actualiza los datos de la tabla

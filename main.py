@@ -228,15 +228,12 @@ while flag_playing:
                     mostrar_texto(screen,"******** GANASTE !!  ********",COLOR_BLANCO,(250,250),35,True)
                     hayQueEsperar = 3
                     modo = 'cargando_puntos'
-                    # audio_nivel1_2.stop()
 
 
         if planta.vida <= 0 or player.vida <= 0:
             mostrar_texto(screen,"******** GAME OVER ********", COLOR_ROJO,(250,250),35,True)
             hayQueEsperar = 3
             modo = 'cargando_puntos'
-            # audio_nivel1_2.stop()
-
         
         mostrar_texto(screen,f'TIEMPO: {str(segundos)}',COLOR_BLANCO,(850, 10),25)
         player.update(screen, posicion_inicio, cambio_nivel)
@@ -245,27 +242,24 @@ while flag_playing:
 
     elif modo == 'puntajes':
 
-        respuesta = obtener_top_puntajes()
-        respuesta = str(respuesta).upper()
-        respuesta = respuesta.split('\n')
-        
         screen.blit(img_background, img_background.get_rect())
         screen.blit(transparent_surface, (0, 0))
+        
+        respuesta = obtener_top_puntajes()
+        # respuesta = str(respuesta).upper()
+        # respuesta = respuesta.split('\n')
+        
 
-        pygame.draw.rect(screen, COLOR_VERDE_SECO, btn_volver_rect)
         mostrar_texto(screen,'ESTOS SON LOS MEJORES 5 PUNTAJES: ', COLOR_BLANCO,(200, 180),30, True)
         mostrar_texto(screen,'Nombre    -    Puntaje    -    Tiempo',COLOR_BLANCO,(250, 230),30, True)
 
-        # creo la supfcie del texto
-        btn_volver_surface = font_titulos.render(btn_volver, True, COLOR_BLANCO)
-        # calculo la ubicacion del btn
-        btn_volver_pos = (btn_volver_rect.centerx - btn_volver_surface.get_width() / 2, btn_volver_rect.centery - btn_volver_surface.get_height() / 2)
-        screen.blit(btn_volver_surface, btn_volver_pos)
 
-        # lista de superficies de cada rta de db
-        font_respuesta_surface = [font_puntajes.render(rta, True, COLOR_BLANCO) for rta in respuesta]
+        # lista de superficies con los nombres
+        font_nombre_surface = [font_puntajes.render(rta['nombre'], True, COLOR_BLANCO) for rta in respuesta]
+        font_puntos_surface = [font_puntajes.render(str(rta['puntos']), True, COLOR_BLANCO) for rta in respuesta]
+        font_tiempo_surface = [font_puntajes.render(str(rta['tiempo']), True, COLOR_BLANCO) for rta in respuesta]
         # obtiene el hight de cada surface de la lista
-        linea_height = [surface.get_height() for surface in font_respuesta_surface]
+        linea_height = [surface.get_height() for surface in font_nombre_surface]
         suma_alturas = 0
         y_positions = []
 
@@ -273,8 +267,19 @@ while flag_playing:
             suma_alturas += altura
             y_positions.append(suma_alturas)
 
-        for i, surface in enumerate(font_respuesta_surface):
-            screen.blit(surface, (300, y_positions[i] + 270))
+        for i, surface in enumerate(font_nombre_surface):
+            screen.blit(surface, (280, y_positions[i] + 270))
+        for i, surface in enumerate(font_puntos_surface):
+            screen.blit(surface, (450, y_positions[i] + 270))
+        for i, surface in enumerate(font_tiempo_surface):
+            screen.blit(surface, (650, y_positions[i] + 270))
+
+        pygame.draw.rect(screen, COLOR_VERDE_SECO, btn_volver_rect)
+        # creo la supfcie del texto
+        btn_volver_surface = font_titulos.render(btn_volver, True, COLOR_BLANCO)
+        # calculo la ubicacion del btn
+        btn_volver_pos = (btn_volver_rect.centerx - btn_volver_surface.get_width() / 2, btn_volver_rect.centery - btn_volver_surface.get_height() / 2)
+        screen.blit(btn_volver_surface, btn_volver_pos)
 
         if boton_volver:
             modo = 'inicio'
@@ -287,10 +292,11 @@ while flag_playing:
         mostrar_texto(screen, f'Puntos a cargar: {player.score}', COLOR_BLANCO, (200,280),30)
 
         pygame.draw.rect(screen, COLOR_BLANCO, ingreso_rect, 2) # 2px de borde
-        font_input_surface = font_puntajes.render(ingreso, True, COLOR_NEGRO)
+        font_input_surface = font_puntajes.render(ingreso, True, COLOR_BLANCO)
         screen.blit(font_input_surface, (ingreso_rect.x + 6, ingreso_rect.y + 4)) # para que quede bien encuadrado en el rectangulo del 'input'
 
         if ingreso != '' and cargar_datos and enter:
+            ingreso = ingreso.upper()
             guardar_nuevo_puntaje(ingreso,player.score,segundos)
             cargar_datos = False 
             mostrar_texto(screen,'Se guardaron sus datos', COLOR_BLANCO, (200,350), 35)
